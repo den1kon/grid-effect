@@ -23,8 +23,8 @@ const createGrid = () => {
   size = document.body.clientWidth > 800 ? 100 : 50;
 
   // prettier-ignore
-  rows = Math.floor(document.body.clientHeight / size),
-  cols = Math.floor(document.body.clientWidth / size);
+  rows = Math.round(document.body.clientHeight / size),
+  cols = Math.round(document.body.clientWidth / size);
 
   wrapper.style.setProperty("--rows", rows);
   wrapper.style.setProperty("--cols", cols);

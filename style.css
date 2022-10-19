@@ -2,6 +2,7 @@
   --g1: rgb(98, 0, 234);
   --g2: rgb(236, 64, 122);
   --inset: 1.5px;
+  background-color: rgb(184, 49, 202);
 }
 
 @keyframes background-pan {
@@ -57,7 +58,8 @@ body.toggled > #tiles > .tile:hover {
   inset: var(--inset);
 }
 
-.tile:hover:before {
+.tile:hover:before,
+.tile:active:before {
   cursor: pointer;
   background-color: rgb(30, 30, 30);
 }
@@ -75,4 +77,7 @@ body.toggled > #tiles > .tile:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+@media screen and (min-width: 800px) {
 }
