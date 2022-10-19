@@ -1,13 +1,44 @@
+:root {
+  --g1: rgb(98, 0, 234);
+  --g2: rgb(236, 64, 122);
+  --inset: 1.5px;
+}
+
+@keyframes background-pan {
+  from {
+    background-position: 0% center;
+  }
+  to {
+    background-position: -200% center;
+  }
+}
+
 body {
-  background-color: rgb(20, 20, 20);
+  animation: background-pan 10s linear infinite;
+  /* background-color: rgb(20, 20, 20); */
+  background: linear-gradient(to right, var(--g1), var(--g2), var(--g1));
+  background-size: 200%;
   height: 100vh;
   overflow: hidden;
   margin: 0px;
 }
 
+body.toggled {
+  animation: none;
+}
+
+body.toggled > #icon {
+  opacity: 1;
+}
+
+body.toggled > #tiles > .tile:hover {
+  opacity: 0.1 !important;
+}
+
 #tiles {
-  height: 100vh;
-  width: 100vw;
+  height: calc(100vh - 2 * var(--inset));
+  width: calc(100vw - 2 * var(--inset));
+  z-index: 2;
 
   display: grid;
   grid-template-rows: repeat(var(--rows), 1fr);
@@ -15,5 +46,33 @@ body {
 }
 
 .tile {
-  outline: 1px solid white;
+  position: relative;
+  /* outline: 1px solid white; */
+}
+
+.tile:before {
+  background-color: rgb(15, 15, 15);
+  content: "";
+  position: absolute;
+  inset: var(--inset);
+}
+
+.tile:hover:before {
+  cursor: pointer;
+  background-color: rgb(30, 30, 30);
+}
+
+#icon {
+  color: #ffffff26;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 10s ease;
+  z-index: 1;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

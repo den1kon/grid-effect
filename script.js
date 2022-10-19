@@ -1,36 +1,52 @@
 // length/width of single tile is 50px
-const TILE_SIZE = 100,
-  wrapper = document.getElementById("tiles");
+wrapper = document.getElementById("tiles");
 
-let rows = 0,
-  cols = 0;
+let size,
+  rows = 0,
+  cols = 0,
+  toggled = false;
 
-const createTile = (index) => {
-  const tile = document.createElement("div");
-
-  tile.classList.add("tile");
-
-  return tile;
-};
+// const colors = ["#2FF3E0", "#F8D210", "#FA26A0", "#F51720"];
 
 const createTiles = (quantity) => {
-  Array.from(Array(quantity)).map((tile, index) => {
-    wrapper.appendChild(createTile(index));
-  });
+  let string = "",
+    opacity = toggled ? 0 : 1;
+  for (let i = 0; i < quantity; i++) {
+    string += `<div class="tile" id="${i}" style="opacity:${opacity}"></div>`;
+  }
+
+  return string;
 };
 
 const createGrid = () => {
   wrapper.innerHTML = "";
+  size = document.body.clientWidth > 800 ? 100 : 50;
 
   // prettier-ignore
-  rows = Math.round(document.body.clientHeight / TILE_SIZE),
-  cols = Math.round(document.body.clientWidth / TILE_SIZE);
+  rows = Math.floor(document.body.clientHeight / size),
+  cols = Math.floor(document.body.clientWidth / size);
 
   wrapper.style.setProperty("--rows", rows);
   wrapper.style.setProperty("--cols", cols);
 
-  createTiles(cols * rows);
+  wrapper.innerHTML = createTiles(cols * rows);
 };
 
 createGrid();
 window.onresize = () => createGrid();
+
+function handleOnClick(event) {
+  toggled = !toggled;
+  document.body.classList.toggle("toggled");
+
+  anime({
+    targets: ".tile",
+    opacity: toggled ? 0 : 1,
+    delay: anime.stagger(50, {
+      grid: [cols, rows],
+      from: event.target.id,
+    }),
+  });
+}
+
+wrapper.onclick = (e) => handleOnClick(e);
